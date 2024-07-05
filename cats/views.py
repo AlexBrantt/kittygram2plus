@@ -8,6 +8,7 @@ from .throttling import WorkingHoursRateThrottle
 from .models import Achievement, Cat, User
 from .permissions import OwnerOrReadOnly, ReadOnly
 from .serializers import AchievementSerializer, CatSerializer, UserSerializer
+from .pagination import CatsPagination
 
 
 class CatViewSet(viewsets.ModelViewSet):
@@ -17,6 +18,7 @@ class CatViewSet(viewsets.ModelViewSet):
     throttle_classes = (WorkingHoursRateThrottle, ScopedRateThrottle)
     # А далее применится лимит low_request
     throttle_scope = 'low_request'
+    pagination_class = CatsPagination 
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
